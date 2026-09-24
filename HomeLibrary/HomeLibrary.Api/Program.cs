@@ -26,6 +26,11 @@ namespace HomeLibrary.Api
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
+            builder.Services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp";
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
