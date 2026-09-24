@@ -62,6 +62,15 @@ namespace HomeLibrary.Api
                 context.Database.Migrate();
             }
 
+#if !DEBUG
+app.UseSpaStaticFiles();
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "ClientApp";
+});
+#endif
+
             app.Run();
         }
     }
