@@ -41,5 +41,5 @@ RUN echo "FE  done"
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=febuild /src/fe/dist/home-library ./ClientApp/
+COPY --from=febuild /src/fe/dist/home-library/browser ./ClientApp/
 ENTRYPOINT ["dotnet", "HomeLibrary.Api.dll"]
