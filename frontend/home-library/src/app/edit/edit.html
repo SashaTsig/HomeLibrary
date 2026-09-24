@@ -1,0 +1,87 @@
+
+<mat-card >
+  <mat-card-header>
+    <mat-card-title>TBD</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    @if (isInit()) {
+    <form [formGroup]="formGroup">
+        <mat-form-field class="flex">
+            <mat-label>Название</mat-label>
+            <input matInput formControlName="titleFormControl" />
+            @if (titleFormControl.hasError('maxLength')) {
+                <mat-error>Не больше 255 символов</mat-error>
+            }
+            @if (titleFormControl.hasError('required')) {
+                <mat-error>Обязательное поле</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Год издания</mat-label>
+            <input matInput formControlName="yearFormControl" type="number"/>
+            @if (yearFormControl.hasError('required')) {
+                <mat-error>Обязательное поле</mat-error>
+            }
+            @if (yearFormControl.hasError('min')) {
+                <mat-error>От 1900 года</mat-error>
+            }
+            @if (yearFormControl.hasError('max')) {
+                <mat-error>До 2026</mat-error>
+            }
+        </mat-form-field>
+
+        
+
+        <mat-form-field class="flex">
+            <mat-label>Оглавление</mat-label>
+            <textarea matInput formControlName="contentFormControl" class="content-textarea"></textarea>
+            @if (contentFormControl.hasError('required')) {
+                <mat-error>Обязательное поле</mat-error>
+            }
+        </mat-form-field>
+
+        <div>
+            <div class="header-title">Авторы:</div>
+            <mat-chip-set class="authors-list">
+                @for (item of authors(); track item.id; let i = $index){
+                    <mat-chip (click)="onDeleteAuthor(i)"> {{item.firstName}} {{item.lastName}} </mat-chip>
+                }
+            </mat-chip-set>
+
+            <div class="control-row">
+                <button matButton="filled" (click)="onNewAuthor()">Добавить автора</button>
+                @if (!newAuthorEditing()) {
+                <button matButton="filled" (click)="onSelectAuthor()">Выбрать из списка</button>
+                }
+            </div>
+
+            @if (newAuthorEditing()) {
+                <mat-form-field class="flex">
+                <mat-label>Фамилия</mat-label>
+                <input matInput formControlName="lastNameFormControl"/>
+                    @if (lastNameFormControl.hasError('maxLength')) {
+                        <mat-error>50 символов</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="flex">
+                <mat-label>Имя</mat-label>
+                <input matInput formControlName="firstNameFormControl"/>
+                    @if (firstNameFormControl.hasError('maxLength')) {
+                        <mat-error>50 символов</mat-error>
+                    }
+                </mat-form-field>
+
+                <button matButton="filled" (click)="onAddNewAuthor()">Добавить</button>
+                <button matButton (click)="onCancelNewAuthor()">Отмена</button>
+            }
+        </div>
+    </form>
+}
+  </mat-card-content>
+  <mat-card-actions>
+    <button matButton="filled" (click)="onSave()">Сохранить</button>
+    <button matButton (click)="onCancel()">Отмена</button>
+  </mat-card-actions>
+</mat-card>
