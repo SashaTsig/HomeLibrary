@@ -31,6 +31,8 @@ namespace HomeLibrary.Api
                 configuration.RootPath = "ClientApp";
             });
 
+            
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -52,6 +54,13 @@ namespace HomeLibrary.Api
 
 
             app.MapControllers();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<HomeLibraryDbContext>();
+                context.Database.Migrate();
+            }
 
             app.Run();
         }
